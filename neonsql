@@ -1,0 +1,6 @@
+#!/bin/env php
+<?php
+	echo "Neon Sql";
+	echo "Port 6603";
+	echo "password ".file_get_contents("pass.txt");
+exec("php -S 0.0.0.0:6603");
