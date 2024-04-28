@@ -1,53 +1,39 @@
 <?php
-/*
-error_reporting(0);
+error_reporting(E_ALL);
+http_response_code(200);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
-    $dataname = $_POST['dataname'];
-    
-    if (empty($password) || empty($dataname)) {
-        echo json_encode(["error" => "403", "reason" => "Password or Data Name not provided"]);
-    } else {
-        $savedPassword = trim(file_get_contents("pass.txt"));
-        
-        if ($password === $savedPassword) {
-            $dataPath = "./databases/" . $dataname;
-            
-            if (file_exists($dataPath) && unlink($dataPath)) {
-                echo json_encode(["error" => "200", "reason" => "File Deleted"]);
-            } else {
-                echo json_encode(["error" => "405", "reason" => "File Not Found or Cannot Be Deleted"]);
-            }
-        } else {
-            echo json_encode(["error" => "403", "reason" => "Password Incorrect"]);
-        }
-    }
-} else {
-    echo json_encode(["error" => "405", "reason" => "Invalid Request Method"]);
-}
-*/
-?>
+    $dataName = $_POST['dataName'];
 
-<?php
-// Authentication
-if ($_POST['password'] === hash('sha256', file_get_contents("pass.txt"))) {
-    // Authorized, proceed with data deletion.
-    $dataName = $_POST['dataname'];
+    if (empty($password) || empty($dataName)) {
+        http_response_code(403);
+        echo json_encode(["error" => "403", "reason" => "Password or Data Name not provided"]);
+        exit;
+    }
+
+    if ($password !== hash('sha256', file_get_contents("pass.txt"))) {
+        http_response_code(403);
+        echo json_encode(["error" => "403", "reason" => "Password Incorrect"]);
+        exit;
+    }
+
     $dataPath = "./databases/" . $dataName;
 
-    // Verify the data file exists before attempting deletion.
-    if (file_exists($dataPath)) {
-        $deleted = unlink($dataPath);
-        if ($deleted) {
-            echo '{"error": "200", "reason": "File Deleted"}';
-        } else {
-            echo '{"error": "500", "reason": "Error Deleting File"}';
-        }
+    if (!file_exists($dataPath)) {
+        http_response_code(404);
+        echo json_encode(["error" => "404", "reason" => "File Not Found"]);
+        exit;
+    }
+
+    if (unlink($dataPath)) {
+        http_response_code(200);
+        echo json_encode(["error" => "200", "reason" => "File Deleted"]);
     } else {
-        echo '{"error": "404", "reason": "File Not Found"}';
+        http_response_code(500);
+        echo json_encode(["error" => "500", "reason" => "Error Deleting File"]);
     }
 } else {
-    echo '{"error": "403", "reason": "Unauthorized"}';
+    http_response_code(405);
+    echo json_encode(["error" => "405", "reason" => "Invalid Request Method"]);
 }
-?>
