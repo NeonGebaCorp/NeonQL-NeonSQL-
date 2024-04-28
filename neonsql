@@ -1,15 +1,36 @@
 #!/usr/bin/php
 <?php
 
-// Set the error reporting level
+//******************************************************************************
+//* Set the error reporting level                                              *
+//******************************************************************************
+// This line sets the error reporting level to E_ALL, which enables the reporting
+// of all errors, including notices, warnings, and fatal errors. This is useful
+// for debugging and development purposes.
 error_reporting(E_ALL);
+
+// This line enables the display of errors. When set to 1, any errors that occur
+// during the execution of the script will be displayed on the screen. This is
+// helpful for debugging and development purposes.
 ini_set('display_errors', 1);
 
-// Check if the script is run from the command line
+//******************************************************************************
+//* Check if the script is run from the command line                           *
+//******************************************************************************
+// This if statement checks if the script is being run from the command line.
+// If the script is not being run from the command line, the script will exit
+// with a message indicating that it can only be run from the command line.
 if (php_sapi_name() != 'cli') {
     die('This script can only be run from the command line.');
 }
 
-// Print the application name and port
+//******************************************************************************
+//* Print the application name and port                                         *
+//******************************************************************************
+// This echo statement prints the name of the application, which is "Neon Sql".
 echo "Neon Sql\n";
-echo "Port 660
+
+// This echo statement prints the port number that the application is listening
+// on, which is 660.
+echo "Port 660\n";
+
