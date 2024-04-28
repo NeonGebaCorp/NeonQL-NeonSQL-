@@ -1,6 +1,15 @@
-#!/bin/env php
+#!/usr/bin/php
 <?php
-	echo "Neon Sql";
-	echo "Port 6603";
-	echo "password ".file_get_contents("pass.txt");
-exec("php -S 0.0.0.0:6603");
+
+// Set the error reporting level
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Check if the script is run from the command line
+if (php_sapi_name() != 'cli') {
+    die('This script can only be run from the command line.');
+}
+
+// Print the application name and port
+echo "Neon Sql\n";
+echo "Port 660
