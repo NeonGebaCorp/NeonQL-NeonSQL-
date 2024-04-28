@@ -9,6 +9,7 @@ $correctPassword = "admin";
 
 // Check if the user is submitting the login form
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username']) && isset($_POST['password'])) {
+    // Assign the entered username and password to variables
     $enteredUsername = $_POST['username'];
     $enteredPassword = $_POST['password'];
 
